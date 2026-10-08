@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows CMD Master Toolkit & Terminal</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['Consolas', 'Cascadia Code', 'Fira Code', 'Courier New', 'monospace']
+          },
+          colors: {
+            cmdDark: '#0c0c0c',
+            cmdHeader: '#1e1e1e',
+            cmdBorder: '#2d2d2d',
+            cmdAccent: '#0078d4',
+            cmdGreen: '#0dbc79',
+            cmdYellow: '#e5be01',
+            cmdCyan: '#23d18b'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Custom Scrollbar for terminal & cards */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563;
+    }
+
+    /* Terminal Blinking Cursor */
+    .cmd-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background-color: #f3f4f6;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Badge and transitions */
+    .command-card {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .command-card:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 bg-blue-600/20 rounded-lg border border-blue-500/30 text-blue-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Windows CMD Master Toolkit
+            <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-medium" id="header-badge">50+ Commands</span>
+          </h1>
+          <p class="text-xs text-slate-400 hidden sm:block">Comprehensive Log/Chat Dumps, Networking, File Ops & Admin Diagnostics</p>
+        </div>
+      </div>
+      
+      <!-- Quick actions -->
+      <div class="flex items-center space-x-2">
+        <button id="quick-help-btn" class="px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Dump & Pro Tips
+        </button>
+        <button id="focus-terminal-btn" class="px-3 py-1.5 text-xs rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium shadow-md shadow-blue-900/30 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          Interactive Terminal
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex flex-col gap-6">
+
+    <!-- Top Hero / Banner -->
+    <div class="bg-gradient-to-r from-blue-950/40 via-slate-900 to-indigo-950/30 border border-blue-900/40 rounded-xl p-5 shadow-lg relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Expanded Windows CMD Command Reference & Dump Center</h2>
+          <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
+            Quick-copy and test 50+ vital Windows commands. Includes comprehensive commands for <strong>session history dumping, output redirection, file downloading, clipboard piping</strong>, and system diagnostics.
+          </p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-lg p-2.5 text-center min-w-[90px]">
+            <span class="text-xl font-bold text-cyan-400 block" id="stat-count">52</span>
+            <span class="text-[11px] text-slate-400 font-medium">Commands</span>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-700/80 rounded-lg p-2.5 text-center min-w-[90px]">
+            <span class="text-xl font-bold text-emerald-400 block">7</span>
+            <span class="text-[11px] text-slate-400 font-medium">Categories</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+      <!-- Search input -->
+      <div class="relative flex-1 max-w-md">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <input 
+          id="search-input" 
+          type="text" 
+          placeholder="Search commands (e.g. dump, history, log, curl, clip)..."
+          class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg pl-10 pr-9 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition"
+        >
+        <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Categories Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none" id="category-filters">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+
+    <!-- Two-column grid: Command List (Left) and Interactive Terminal Sandbox (Right) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Command Cards Column (7 Cols on LG) -->
+      <div class="lg:col-span-7 flex flex-col gap-3.5">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+            Available Commands (<span id="results-count">52</span>)
+          </span>
+          <span class="text-xs text-slate-400">
+            Click 'Copy' or 'Load' to test in Terminal
+          </span>
+        </div>
+
+        <div id="commands-container" class="space-y-3">
+          <!-- Command Cards dynamically injected here -->
+        </div>
+
+        <!-- Empty state -->
+        <div id="no-results" class="hidden text-center py-16 px-4 bg-slate-900/50 border border-dashed border-slate-800 rounded-xl">
+          <svg class="w-12 h-12 mx-auto text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <h3 class="text-slate-300 font-medium">No matching commands found</h3>
+          <p class="text-xs text-slate-500 mt-1">Try searching for keywords like "dump", "history", "ping", or "export".</p>
+          <button id="reset-filter-btn" class="mt-4 px-3 py-1.5 text-xs rounded-md bg-slate-800 text-blue-400 hover:bg-slate-700">Clear Search Filter</button>
+        </div>
+      </div>
+
+      <!-- Interactive Terminal Column (5 Cols on LG, Sticky on Desktop) -->
+      <div class="lg:col-span-5 sticky top-20 flex flex-col gap-4">
+        
+        <!-- Windows Console Terminal Sandbox -->
+        <div id="cmd-sandbox" class="rounded-xl overflow-hidden border border-slate-700 bg-cmdDark shadow-2xl flex flex-col">
+          
+          <!-- Classic Windows Console Title Bar -->
+          <div class="bg-cmdHeader px-3 py-2 flex items-center justify-between border-b border-cmdBorder select-none">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="2" y="4" width="20" height="16" rx="2" fill="#000" stroke="#888" stroke-width="1.5"/>
+                <path d="M6 9l3 3-3 3M11 15h5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="text-xs font-mono font-medium text-slate-300 tracking-wide">Command Prompt - Interactive Sandbox</span>
+            </div>
+            <!-- Window Control Icons -->
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/40 text-center text-[8px] flex items-center justify-center text-yellow-300 cursor-pointer" title="Minimize">_</span>
+              <span class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/40 text-center text-[8px] flex items-center justify-center text-green-300 cursor-pointer" title="Maximize">□</span>
+              <span class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/40 text-center text-[8px] flex items-center justify-center text-red-300 cursor-pointer" title="Close">✕</span>
+            </div>
+          </div>
+
+          <!-- Command Interactive Configuration Bar -->
+          <div class="p-3 bg-slate-900 border-b border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span> Active Command
+              </span>
+              <div class="flex items-center gap-1">
+                <button id="copy-terminal-cmd-btn" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 font-mono flex items-center gap-1 transition">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                  Copy String
+                </button>
+              </div>
+            </div>
+
+            <!-- Editable input for parameters -->
+            <div class="flex gap-2">
+              <div class="relative flex-1 font-mono text-xs">
+                <input 
+                  type="text" 
+                  id="terminal-input"
+                  class="w-full bg-black/80 border border-slate-700 rounded px-2.5 py-1.5 text-emerald-400 font-mono text-xs focus:outline-none focus:border-cyan-500" 
+                  value="doskey /history > conversation_history.txt"
+                  spellcheck="false"
+                >
+              </div>
+              <button 
+                id="run-terminal-btn" 
+                class="px-3 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center gap-1.5 shadow transition shrink-0"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Execute
+              </button>
+            </div>
+            
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span id="active-cmd-desc" class="truncate max-w-[280px]">Dumps complete terminal conversation / command buffer into a file.</span>
+              <button id="clear-screen-btn" class="hover:text-slate-200 underline">Clear Screen (cls)</button>
+            </div>
+          </div>
+
+          <!-- Console Output Screen -->
+          <div id="terminal-screen" class="p-4 font-mono text-[12px] leading-relaxed text-slate-200 bg-black min-h-[340px] max-h-[460px] overflow-y-auto select-text whitespace-pre-wrap">
+            <div class="text-slate-400 mb-2">Microsoft Windows [Version 10.0.22631.3296]<br>(c) Microsoft Corporation. All rights reserved.</div>
+            <div id="terminal-history"></div>
+            <div class="flex items-center text-slate-100 flex-wrap">
+              <span class="text-cmdGreen mr-2">C:\Users\Admin&gt;</span>
+              <span id="terminal-current-preview" class="text-slate-100 font-mono font-normal">doskey /history &gt; conversation_history.txt</span>
+              <span class="cmd-cursor ml-1"></span>
+            </div>
+          </div>
+
+          <!-- Footer status of terminal -->
+          <div class="bg-cmdHeader/80 px-3 py-1.5 border-t border-cmdBorder flex items-center justify-between text-[11px] text-slate-400">
+            <div class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Command Prompt Ready</span>
+            </div>
+            <span class="text-slate-400">UTF-8 &bull; Windows NT</span>
+          </div>
+
+        </div>
+
+        <!-- Logging & Redirection Cheat-sheet Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-2">
+          <div class="font-semibold text-slate-200 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+            How To Dump Any Conversation or Output in CMD
+          </div>
+          <p class="leading-relaxed">
+            Append <code class="text-cyan-300 bg-cyan-950/40 px-1 py-0.5 rounded">&gt; log.txt</code> to overwrite or <code class="text-cyan-300 bg-cyan-950/40 px-1 py-0.5 rounded">&gt;&gt; log.txt</code> to append output to a text file. Combine stdout &amp; stderr using <code class="text-cyan-300 bg-cyan-950/40 px-1 py-0.5 rounded">2&gt;&amp;1</code> (e.g. <code class="text-slate-200">my_script &gt; log.txt 2&gt;&amp;1</code>).
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Copy Toast Notification -->
+  <div id="copy-toast" class="fixed bottom-6 right-6 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2.5 bg-emerald-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
+    <svg class="w-5 h-5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toast-message">Command copied to clipboard!</span>
+  </div>
+
+  <!-- Help & Tips Modal -->
+  <div id="help-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button id="close-help-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        Dumping, Logs & Pro CMD Techniques
+      </h3>
+      <ul class="text-xs text-slate-300 space-y-2.5 mt-4">
+        <li class="flex items-start gap-2">
+          <span class="font-mono text-cyan-400 font-bold">&bull;</span>
+          <span><strong>Dumping Session History:</strong> Run <code class="text-cyan-300 font-mono">doskey /history &gt; session.txt</code> at any time to export every single prompt and conversational script executed in your current session.</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="font-mono text-cyan-400 font-bold">&bull;</span>
+          <span><strong>Copying Text Direct to Windows Clipboard:</strong> Use <code class="text-cyan-300 font-mono">type chat.txt | clip</code> or pipe any command into <code class="text-cyan-300 font-mono">clip</code> to paste it anywhere with Ctrl+V.</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="font-mono text-cyan-400 font-bold">&bull;</span>
+          <span><strong>Downloading Files Directly in CMD:</strong> Windows 10 & 11 include <code class="text-cyan-300 font-mono">curl.exe</code> by default. Run <code class="text-cyan-300 font-mono">curl -o chat_export.json &lt;URL&gt;</code> without needing PowerShell or browser downloads.</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="font-mono text-cyan-400 font-bold">&bull;</span>
+          <span><strong>Capturing Network Packet Dumps:</strong> Use <code class="text-cyan-300 font-mono">netsh trace start capture=yes</code> to dump real packet traces for Wireshark analysis.</span>
+        </li>
+      </ul>
+      <div class="mt-6 flex justify-end">
+        <button id="modal-got-it-btn" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs rounded-lg transition">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CMD_DATABASE = [
+      // 1. Session, Logging & Dump Tools
+      {
+        id: "doskey_history",
+        name: "doskey /history > file",
+        category: "Logging & Dumps",
+        bestFor: "Exporting session logs & prompt history",
+        shortDesc: "Dumps the entire session's command prompt conversation and history into a text file.",
+        syntax: "doskey /history > <filename.txt>",
+        primaryExample: "doskey /history > conversation_history.txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: "> filename", desc: "Redirects and writes all previously typed commands into file." },
+          { flag: "/history", desc: "Displays all commands entered into the current CMD buffer." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> doskey /history > conversation_history.txt
+[OK] Session command buffer exported:
+  1. ipconfig /all
+  2. curl -o transcript.json https://api.example.com/chat/export
+  3. ping 1.1.1.1
+  4. netstat -ano
+  5. doskey /history > conversation_history.txt
+File written: C:\\Users\\Admin\\conversation_history.txt (5 lines recorded)`
+      },
+      {
+        id: "output_redirect_overwrite",
+        name: "command > output.txt",
+        category: "Logging & Dumps",
+        bestFor: "Saving command output to file",
+        shortDesc: "Standard stream redirect operator: dumps the console output of any command into a fresh file.",
+        syntax: "<command> > <destination_file.txt>",
+        primaryExample: "systeminfo > sysinfo_dump.txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: ">", desc: "Redirects stdout to file (overwrites existing contents)." },
+          { flag: "2>&1", desc: "Redirects error stream (stderr) into standard stream (stdout)." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> systeminfo > sysinfo_dump.txt
+Writing system configuration dump to C:\\Users\\Admin\\sysinfo_dump.txt ...
+[OK] Complete hardware and OS snapshot written to file (34 KB).`
+      },
+      {
+        id: "output_redirect_append",
+        name: "command >> conversation_log.txt",
+        category: "Logging & Dumps",
+        bestFor: "Appending logs continuously",
+        shortDesc: "Appends command outputs or conversation messages to an existing log file without deleting old data.",
+        syntax: "<command> >> <logfile.txt>",
+        primaryExample: "echo [%DATE% %TIME%] User conversation session saved >> chat_log.txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: ">>", desc: "Appends output to the end of target file without truncating." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> echo [%DATE% %TIME%] User conversation session saved >> chat_log.txt
+Appended 1 line to C:\\Users\\Admin\\chat_log.txt:
+"[Thu 10/08/2026 09:20:14.21] User conversation session saved"`
+      },
+      {
+        id: "clip",
+        name: "clip",
+        category: "Logging & Dumps",
+        bestFor: "Piping directly to Windows clipboard",
+        shortDesc: "Redirects the output of any command or file directly into the Windows OS clipboard for easy pasting.",
+        syntax: "<command> | clip   OR   type <file> | clip",
+        primaryExample: "type conversation_log.txt | clip",
+        requiresAdmin: false,
+        flags: [
+          { flag: "| clip", desc: "Pipes console stream into Windows clipboard." },
+          { flag: "< file clip", desc: "Sends contents of file directly to clipboard." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> type conversation_log.txt | clip
+[SUCCESS] Contents of conversation_log.txt (4,821 characters) copied to Windows clipboard.
+Ready to paste with Ctrl + V in any application.`
+      },
+      {
+        id: "curl",
+        name: "curl",
+        category: "Logging & Dumps",
+        bestFor: "Downloading chats, transcripts & APIs",
+        shortDesc: "Downloads files, chats, transcripts, or queries REST APIs directly through CMD.",
+        syntax: "curl -o <filename> <URL> [-H \"Header\"]",
+        primaryExample: "curl -o chat_transcript.json https://api.github.com/zen",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-o <file>", desc: "Writes output directly to destination file instead of terminal screen." },
+          { flag: "-O", desc: "Writes output to local file named like remote file." },
+          { flag: "-s", desc: "Silent or quiet mode (suppresses meter)." }
+        ],
+        mockOutput: 
+`  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    42  100    42    0     0    145      0 --:--:-- --:--:-- --:--:--   145
+Saved output to chat_transcript.json (42 bytes).`
+      },
+      {
+        id: "netsh_trace",
+        name: "netsh trace start capture=yes",
+        category: "Logging & Dumps",
+        bestFor: "Network packet dumps & Wireshark trace",
+        shortDesc: "Captures and dumps live network packets, sockets, and frames into an ETL trace file.",
+        syntax: "netsh trace start capture=yes tracefile=<path.etl> [maxsize=<MB>]",
+        primaryExample: "netsh trace start capture=yes tracefile=C:\\dump.etl",
+        requiresAdmin: true,
+        flags: [
+          { flag: "capture=yes", desc: "Enables raw network packet capture." },
+          { flag: "tracefile=<path>", desc: "Specifies destination output path for ETL dump file." },
+          { flag: "netsh trace stop", desc: "Halts live packet logging and saves file." }
+        ],
+        mockOutput: 
+`Trace configuration:
+-------------------------------------------------------------------
+Status:             Running
+Logging to file:    C:\\dump.etl
+Tracing Type:       Packet Capture
+Append:             Disabled
+Circular:           Enabled
+Max Size:           250 MB
+Report:             Disabled`
+      },
+      {
+        id: "dxdiag_dump",
+        name: "dxdiag /t",
+        category: "Logging & Dumps",
+        bestFor: "DirectX & GPU hardware crash dump",
+        shortDesc: "Generates a complete, comprehensive hardware, GPU, driver, and sound diagnostic dump file.",
+        syntax: "dxdiag /t <output_filename.txt>",
+        primaryExample: "dxdiag /t dxdiag_dump.txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/t <file>", desc: "Saves complete DirectX diagnostic output into specified text file." },
+          { flag: "/x <file>", desc: "Saves report formatted in structured XML format." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> dxdiag /t dxdiag_dump.txt
+Gathering DirectX system information...
+[OK] Diagnostic report written to: C:\\Users\\Admin\\dxdiag_dump.txt
+Includes GPU driver versions, VRAM, WDDM version, display modes, and sound devices.`
+      },
+      {
+        id: "powercfg_battery",
+        name: "powercfg /batteryreport",
+        category: "Logging & Dumps",
+        bestFor: "Battery health & power history dump",
+        shortDesc: "Generates an in-depth HTML diagnostic dump of battery charge cycles, capacity decay, and drains.",
+        syntax: "powercfg /batteryreport [/output <path>]",
+        primaryExample: "powercfg /batteryreport /output \"battery_report.html\"",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/batteryreport", desc: "Compiles battery lifetime health & cycle report." },
+          { flag: "/energy", desc: "Conducts a 60-second power efficiency & error audit." }
+        ],
+        mockOutput: 
+`Battery life report saved to file path C:\\Users\\Admin\\battery_report.html.
+Design Capacity: 84,292 mWh
+Full Charge Capacity: 79,110 mWh (93.8% Health)
+Cycle Count: 142`
+      },
+      {
+        id: "procdump",
+        name: "procdump / rundll32 MiniDump",
+        category: "Logging & Dumps",
+        bestFor: "Application memory & crash dump",
+        shortDesc: "Dumps process memory snapshots for troubleshooting crashed or frozen programs.",
+        syntax: "rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump <PID> <path.dmp> full",
+        primaryExample: "rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump 1044 C:\\lsass.dmp full",
+        requiresAdmin: true,
+        flags: [
+          { flag: "full", desc: "Generates a complete memory address space snapshot dump." }
+        ],
+        mockOutput: 
+`Invoking MiniDump API on Process ID 1044...
+Memory dump created at C:\\lsass.dmp
+Dump size: 78.4 MB. Diagnostic memory symbols verified.`
+      },
+      {
+        id: "msg_session",
+        name: "msg * \"Message\"",
+        category: "Logging & Dumps",
+        bestFor: "LAN session message broadcasts",
+        shortDesc: "Broadcasts an instant interactive pop-up text message to one or all user sessions on the machine or network.",
+        syntax: "msg {* | username | sessionname | sessionid} [text]",
+        primaryExample: "msg * \"Important: Server will restart for updates in 10 minutes.\"",
+        requiresAdmin: false,
+        flags: [
+          { flag: "*", desc: "Broadcasts message to all logged-in sessions." },
+          { flag: "/time:<sec>", desc: "Time in seconds to wait for receiver acknowledgment." }
+        ],
+        mockOutput: 
+`Broadcasting modal dialog to active sessions (Console, RDP)...
+[OK] Message delivered to 2 active users.`
+      },
+
+      // 2. Networking Essentials
+      {
+        id: "ping",
+        name: "ping",
+        category: "Networking",
+        bestFor: "Testing latency and server uptime",
+        shortDesc: "Tests network connectivity and packet round-trip time to an IP address or hostname.",
+        syntax: "ping [-t] [-a] [-n count] [-l size] <target>",
+        primaryExample: "ping -n 4 8.8.8.8",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-t", desc: "Pings the specified host continuously until stopped (Ctrl+C)." },
+          { flag: "-n <count>", desc: "Number of echo requests to send (default 4)." },
+          { flag: "-a", desc: "Resolves IP addresses to hostnames." }
+        ],
+        mockOutput: 
+`Pinging 8.8.8.8 with 32 bytes of data:
+Reply from 8.8.8.8: bytes=32 time=14ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=13ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=15ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=14ms TTL=117
+
+Ping statistics for 8.8.8.8:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 13ms, Maximum = 15ms, Average = 14ms`
+      },
+      {
+        id: "ipconfig",
+        name: "ipconfig",
+        category: "Networking",
+        bestFor: "Inspecting adapter IP & DNS flushing",
+        shortDesc: "Displays network adapter IP, subnet, gateway addresses and manages DNS caches.",
+        syntax: "ipconfig [/all] [/release] [/renew] [/flushdns] [/displaydns]",
+        primaryExample: "ipconfig /flushdns",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/all", desc: "Displays full configuration for all adapters." },
+          { flag: "/flushdns", desc: "Purges the DNS Resolver cache." },
+          { flag: "/renew", desc: "Renews IPv4/IPv6 addresses from DHCP." }
+        ],
+        mockOutput: 
+`Windows IP Configuration
+
+Successfully flushed the DNS Resolver Cache.`
+      },
+      {
+        id: "tracert",
+        name: "tracert",
+        category: "Networking",
+        bestFor: "Identifying router hop bottlenecks",
+        shortDesc: "Traces the packet path and router hops across intermediate networks to a destination host.",
+        syntax: "tracert [-d] [-h max_hops] [-w timeout] <target>",
+        primaryExample: "tracert -d 1.1.1.1",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-d", desc: "Does not resolve IP addresses to hostnames (faster trace)." },
+          { flag: "-h <max>", desc: "Maximum number of hops to search (default 30)." }
+        ],
+        mockOutput: 
+`Tracing route to 1.1.1.1 over a maximum of 30 hops:
+  1    <1 ms    <1 ms    <1 ms  192.168.1.1
+  2     8 ms     7 ms     7 ms  10.24.0.1
+  3    11 ms    10 ms    10 ms  1.1.1.1
+Trace complete.`
+      },
+      {
+        id: "netstat",
+        name: "netstat",
+        category: "Networking",
+        bestFor: "Viewing open listening ports and PIDs",
+        shortDesc: "Displays active TCP/UDP connections, listening ports, and owning Process IDs.",
+        syntax: "netstat [-a] [-n] [-o] [-b]",
+        primaryExample: "netstat -ano",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-a", desc: "Displays all connections and listening ports." },
+          { flag: "-n", desc: "Displays addresses and port numbers in numerical form." },
+          { flag: "-o", desc: "Displays the owning process ID (PID)." }
+        ],
+        mockOutput: 
+`Active Connections
+  Proto  Local Address          Foreign Address        State           PID
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       1044
+  TCP    192.168.1.145:54210    142.250.190.46:443     ESTABLISHED     12984
+  TCP    192.168.1.145:54211    20.189.173.1:443       TIME_WAIT       0
+  UDP    0.0.0.0:5353           *:*                                    2408`
+      },
+      {
+        id: "nslookup",
+        name: "nslookup",
+        category: "Networking",
+        bestFor: "Querying DNS nameservers & domain records",
+        shortDesc: "Queries Domain Name System (DNS) servers to inspect domain IP records or reverse lookups.",
+        syntax: "nslookup [-type=querytype] <domain> [dns-server]",
+        primaryExample: "nslookup -type=mx google.com",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-type=mx", desc: "Queries Mail Exchange records." },
+          { flag: "-type=txt", desc: "Queries TXT verification and SPF records." }
+        ],
+        mockOutput: 
+`Server:  one.one.one.one
+Address:  1.1.1.1
+
+Non-authoritative answer:
+google.com      MX preference = 10, mail exchanger = smtp.google.com`
+      },
+      {
+        id: "netsh_wlan",
+        name: "netsh wlan show profile",
+        category: "Networking",
+        bestFor: "Recovering saved Wi-Fi passwords",
+        shortDesc: "Reveals saved Wi-Fi profiles and exports cleartext network security keys.",
+        syntax: "netsh wlan show profile [name=\"SSID\"] [key=clear]",
+        primaryExample: "netsh wlan show profile name=\"Office-WiFi\" key=clear",
+        requiresAdmin: false,
+        flags: [
+          { flag: "key=clear", desc: "Outputs the stored Wi-Fi password in plaintext under Security Settings." }
+        ],
+        mockOutput: 
+`Profile Office-WiFi on interface Wi-Fi:
+    SSID name              : "Office-WiFi"
+    Network type           : Infrastructure
+    Authentication         : WPA2 - Personal
+    Cipher                 : CCMP
+    Key Content            : SecurePass2026!`
+      },
+      {
+        id: "arp",
+        name: "arp",
+        category: "Networking",
+        bestFor: "Mapping local IP to MAC hardware addresses",
+        shortDesc: "Displays and modifies the Address Resolution Protocol (ARP) cache table.",
+        syntax: "arp [-a] [-d <ip>]",
+        primaryExample: "arp -a",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-a", desc: "Displays all current ARP table entries." },
+          { flag: "-d", desc: "Deletes entry for specified host." }
+        ],
+        mockOutput: 
+`Interface: 192.168.1.145 --- 0xb
+  Internet Address      Physical Address      Type
+  192.168.1.1           e0-28-6d-74-91-a0     dynamic
+  192.168.1.50          50-ec-50-32-11-2f     dynamic`
+      },
+      {
+        id: "getmac",
+        name: "getmac",
+        category: "Networking",
+        bestFor: "Finding MAC physical network hardware IDs",
+        shortDesc: "Discovers and lists Media Access Control (MAC) physical addresses of network cards.",
+        syntax: "getmac [/v] [/fo {TABLE | LIST | CSV}]",
+        primaryExample: "getmac /v",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/v", desc: "Displays verbose adapter device names." }
+        ],
+        mockOutput: 
+`Connection Name  Network Adapter   Physical Address    Transport Name
+=============== ================= =================== ======================================
+Ethernet        Intel I219-LM     00-1B-44-11-3A-B7   \\Device\\Tcpip_{8F6032B2-9B7C-4C88}`
+      },
+      {
+        id: "pathping",
+        name: "pathping",
+        category: "Networking",
+        bestFor: "Analyzing per-hop packet loss",
+        shortDesc: "Combines ping and tracert to analyze packet latency and loss across intermediate routers.",
+        syntax: "pathping [-n] [-q queries] <target>",
+        primaryExample: "pathping -n 8.8.8.8",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-n", desc: "Does not resolve IP addresses to hostnames." },
+          { flag: "-q <n>", desc: "Queries per hop." }
+        ],
+        mockOutput: 
+`Tracing route to 8.8.8.8 over a maximum of 30 hops
+  0  192.168.1.145
+  1  192.168.1.1 (0% loss)
+  2  10.24.0.1   (0% loss)
+  3  8.8.8.8     (0% loss)`
+      },
+      {
+        id: "net_use",
+        name: "net use",
+        category: "Networking",
+        bestFor: "Mapping SMB network shares to drives",
+        shortDesc: "Connects, maps, or disconnects shared folders and network drive letters.",
+        syntax: "net use [drive:] [\\\\computer\\share] [/user:username password] [/persistent:{yes|no}]",
+        primaryExample: "net use Z: \\\\192.168.1.50\\Backups /persistent:yes",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/persistent:yes", desc: "Restores mapping automatically on next reboot." },
+          { flag: "/delete", desc: "Disconnects the specified mapped network drive." }
+        ],
+        mockOutput: 
+`The command completed successfully.
+Z: is now mapped to \\\\192.168.1.50\\Backups.`
+      },
+
+      // 3. File & Directory Management
+      {
+        id: "dir",
+        name: "dir",
+        category: "File & Directory",
+        bestFor: "Listing files and directory sizes",
+        shortDesc: "Lists files and subdirectories with timestamps, sizes, and attributes.",
+        syntax: "dir [drive:][path] [/a] [/s] [/b] [/o:order]",
+        primaryExample: "dir /a /o:gn",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/s", desc: "Lists all files in current directory and all subdirectories." },
+          { flag: "/b", desc: "Bare format: file names only without summary info." },
+          { flag: "/a", desc: "Displays hidden and system files." }
+        ],
+        mockOutput: 
+` Directory of C:\\Users\\Admin
+
+10/08/2026  09:12 AM    <DIR>          .
+10/08/2026  09:12 AM    <DIR>          ..
+10/08/2026  09:05 AM    <DIR>          Desktop
+10/08/2026  09:12 AM             1,420 chat_log.txt
+               1 File(s)          1,420 bytes`
+      },
+      {
+        id: "cd",
+        name: "cd",
+        category: "File & Directory",
+        bestFor: "Navigating folders & switching drives",
+        shortDesc: "Changes the current working directory or shifts active drive.",
+        syntax: "cd [/d] [path] | cd ..",
+        primaryExample: "cd /d D:\\Projects\\App",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/d", desc: "Switches current drive as well as directory path simultaneously." },
+          { flag: "..", desc: "Moves up one level to parent folder." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin> cd /d D:\\Projects\\App
+D:\\Projects\\App>`
+      },
+      {
+        id: "robocopy",
+        name: "robocopy",
+        category: "File & Directory",
+        bestFor: "Fast multi-threaded backups & mirrors",
+        shortDesc: "Robust File Copy: high-speed multi-threaded directory replication with resume capability.",
+        syntax: "robocopy <source> <destination> [files] [/mir] [/mt:threads] [/z]",
+        primaryExample: "robocopy C:\\Data D:\\Backup /mir /mt:8 /z",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/mir", desc: "Mirrors a directory tree (syncs and removes deleted)." },
+          { flag: "/mt:<n>", desc: "Multi-threaded copying (default 8, max 128)." },
+          { flag: "/z", desc: "Restartable copy mode for unreliable network links." }
+        ],
+        mockOutput: 
+`-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+  Source : C:\\Data\\
+    Dest : D:\\Backup\\
+    Dirs : 12    Copied : 2    Skipped : 10
+   Files : 140   Copied : 12   Skipped : 128
+Speed : 9,742,109 Bytes/sec.`
+      },
+      {
+        id: "tar",
+        name: "tar",
+        category: "File & Directory",
+        bestFor: "Extracting and creating zip/tar archives",
+        shortDesc: "Native Windows archive utility to compress or uncompress zip, tar.gz, and bz2 files without 3rd party tools.",
+        syntax: "tar -cvf <archive.zip> <files>  OR  tar -xvf <archive.zip>",
+        primaryExample: "tar -xvf backup.zip -C D:\\Restored",
+        requiresAdmin: false,
+        flags: [
+          { flag: "-xvf", desc: "Extracts files with verbose console progress." },
+          { flag: "-cvf", desc: "Creates a new compressed archive file." },
+          { flag: "-C <dir>", desc: "Target output folder." }
+        ],
+        mockOutput: 
+`x notes.txt
+x logs/chat.json
+x config.ini
+Extracted 3 files successfully.`
+      },
+      {
+        id: "tree",
+        name: "tree",
+        category: "File & Directory",
+        bestFor: "Visualizing folder hierarchy",
+        shortDesc: "Displays the directory and file structure of a path as a visual text tree.",
+        syntax: "tree [path] [/f] [/a]",
+        primaryExample: "tree /f /a",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/f", desc: "Displays file names in each subfolder." },
+          { flag: "/a", desc: "Uses standard ASCII characters for piping to text files." }
+        ],
+        mockOutput: 
+`Folder PATH listing
+C:\\SRC\\PROJECT
++---assets
+|   \\---logo.svg
+\\---index.html`
+      },
+      {
+        id: "findstr",
+        name: "findstr",
+        category: "File & Directory",
+        bestFor: "Regex pattern searching in text files",
+        shortDesc: "Searches for text strings and regular expression patterns inside files.",
+        syntax: "findstr [/s] [/i] [/n] \"pattern\" <files>",
+        primaryExample: "findstr /s /i /n \"error\" *.log",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/s", desc: "Searches matching files in current folder and all subfolders." },
+          { flag: "/i", desc: "Case-insensitive search." },
+          { flag: "/n", desc: "Prints line number containing matched string." }
+        ],
+        mockOutput: 
+`server.log:42: [ERROR] Connection timed out on port 5432
+debug.log:118: [error] Failed to initialize SSL handshake`
+      },
+      {
+        id: "where",
+        name: "where",
+        category: "File & Directory",
+        bestFor: "Locating executable paths in PATH",
+        shortDesc: "Locates and displays the disk paths of files or executables registered in the system environment.",
+        syntax: "where [/r dir] <filename>",
+        primaryExample: "where python",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/r <dir>", desc: "Recursively searches specified directory." }
+        ],
+        mockOutput: 
+`C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python312\\python.exe
+C:\\Windows\\py.exe`
+      },
+      {
+        id: "attrib",
+        name: "attrib",
+        category: "File & Directory",
+        bestFor: "Modifying hidden & read-only file tags",
+        shortDesc: "Displays, sets, or clears Read-Only, Hidden, and System attributes on files and folders.",
+        syntax: "attrib [{+|-}r] [{+|-}h] [{+|-}s] [path] [/s]",
+        primaryExample: "attrib +h +r secrets.env",
+        requiresAdmin: false,
+        flags: [
+          { flag: "+h / -h", desc: "Sets / clears Hidden attribute." },
+          { flag: "+r / -r", desc: "Sets / clears Read-only attribute." }
+        ],
+        mockOutput: 
+`A   HR       C:\\Users\\Admin\\secrets.env`
+      },
+      {
+        id: "mkdir",
+        name: "mkdir / md",
+        category: "File & Directory",
+        bestFor: "Creating folders and nested paths",
+        shortDesc: "Creates a new folder or multiple nested subdirectories in one command.",
+        syntax: "mkdir [drive:]path  |  md [drive:]path",
+        primaryExample: "mkdir D:\\Workspace\\App\\logs",
+        requiresAdmin: false,
+        flags: [
+          { flag: "path", desc: "Automatically creates parent paths if they do not exist." }
+        ],
+        mockOutput: 
+`Directory created: D:\\Workspace\\App\\logs`
+      },
+      {
+        id: "del",
+        name: "del",
+        category: "File & Directory",
+        bestFor: "Deleting files permanently",
+        shortDesc: "Deletes one or more files from disk.",
+        syntax: "del [/p] [/f] [/s] [/q] <filename>",
+        primaryExample: "del /f /q *.tmp",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/f", desc: "Forces deleting of read-only files." },
+          { flag: "/q", desc: "Quiet mode: disables confirmation prompt." }
+        ],
+        mockOutput: 
+`Deleted temporary files matching *.tmp.`
+      },
+      {
+        id: "rmdir",
+        name: "rmdir / rd",
+        category: "File & Directory",
+        bestFor: "Deleting entire folder structures",
+        shortDesc: "Removes or purges a directory and all nested content.",
+        syntax: "rmdir [/s] [/q] <path>",
+        primaryExample: "rmdir /s /q D:\\OldCache",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/s", desc: "Removes all files and subdirectories inside." },
+          { flag: "/q", desc: "Quiet mode." }
+        ],
+        mockOutput: 
+`Directory tree D:\\OldCache deleted.`
+      },
+      {
+        id: "compact",
+        name: "compact",
+        category: "File & Directory",
+        bestFor: "Compressing folders on NTFS drives",
+        shortDesc: "Displays or alters compression of files or directories on NTFS partitions to recover space.",
+        syntax: "compact [/c | /u] [/s[:dir]] [/a] [/i] [filename]",
+        primaryExample: "compact /c /s:D:\\Logs /i",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/c", desc: "Compresses specified files/directories." },
+          { flag: "/u", desc: "Uncompresses specified files." }
+        ],
+        mockOutput: 
+`Compressing files in D:\\Logs\\
+142 files within 4 directories were compressed.
+1,240,000 total bytes of data are stored in 480,000 bytes.
+The compression ratio is 2.5 to 1.`
+      },
+
+      // 4. System & Hardware
+      {
+        id: "systeminfo",
+        name: "systeminfo",
+        category: "System & Hardware",
+        bestFor: "Hardware, RAM, BIOS & OS audit",
+        shortDesc: "Displays operating system version, BIOS, RAM, network cards, and installed Windows updates.",
+        syntax: "systeminfo [/s system] [/fo {TABLE | LIST | CSV}]",
+        primaryExample: "systeminfo",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/fo <format>", desc: "Outputs data as TABLE, LIST, or CSV." }
+        ],
+        mockOutput: 
+`Host Name:                 DESKTOP-PRO-X
+OS Name:                   Microsoft Windows 11 Pro
+OS Version:                10.0.22631 N/A Build 22631
+System Manufacturer:       Dell Inc.
+System Model:              XPS 15 9530
+Total Physical Memory:     32,540 MB
+Available Physical Memory: 21,114 MB`
+      },
+      {
+        id: "shutdown",
+        name: "shutdown",
+        category: "System & Hardware",
+        bestFor: "Automated restarts, shutdown & timer cancels",
+        shortDesc: "Reboots, powers down, or aborts an impending reboot cycle.",
+        syntax: "shutdown [/s | /r | /a | /l] [/f] [/t xxx]",
+        primaryExample: "shutdown /r /t 60",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/r", desc: "Full reboot." },
+          { flag: "/s", desc: "Full shutdown." },
+          { flag: "/a", desc: "Aborts an active shutdown countdown." }
+        ],
+        mockOutput: 
+`The system will restart in 60 seconds.
+Run "shutdown /a" to cancel.`
+      },
+      {
+        id: "driverquery",
+        name: "driverquery",
+        category: "System & Hardware",
+        bestFor: "Inspecting installed kernel drivers",
+        shortDesc: "Lists installed hardware device drivers, driver types, and link dates.",
+        syntax: "driverquery [/v] [/fo {TABLE | LIST | CSV}]",
+        primaryExample: "driverquery /v",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/v", desc: "Displays verbose driver details and file system paths." }
+        ],
+        mockOutput: 
+`Module Name  Display Name           Driver Type   Link Date
+=========== ====================== ============= ======================
+nvlddmkm    NVIDIA Windows Kernel  Kernel        09/18/2026 04:10:48 AM
+Netwtw12    Intel Wi-Fi Driver     Kernel        07/04/2026 06:14:02 PM`
+      },
+      {
+        id: "wmic_cpu",
+        name: "wmic cpu get",
+        category: "System & Hardware",
+        bestFor: "Querying CPU cores & clock speeds",
+        shortDesc: "Queries Windows Management Instrumentation (WMI) for CPU architecture, core counts, and threads.",
+        syntax: "wmic cpu get Name,NumberOfCores,NumberOfLogicalProcessors",
+        primaryExample: "wmic cpu get Name,NumberOfCores,NumberOfLogicalProcessors",
+        requiresAdmin: false,
+        flags: [
+          { flag: "get", desc: "Retrieves specific property columns." }
+        ],
+        mockOutput: 
+`Name                                      NumberOfCores  NumberOfLogicalProcessors
+13th Gen Intel(R) Core(TM) i7-13700H      14             20`
+      },
+      {
+        id: "wmic_bios",
+        name: "wmic bios get serialnumber",
+        category: "System & Hardware",
+        bestFor: "Finding hardware motherboard serial number",
+        shortDesc: "Retrieves the computer OEM serial number/service tag directly without opening the case.",
+        syntax: "wmic bios get SerialNumber",
+        primaryExample: "wmic bios get SerialNumber",
+        requiresAdmin: false,
+        flags: [
+          { flag: "SerialNumber", desc: "Hardware motherboard/OEM serial identifier." }
+        ],
+        mockOutput: 
+`SerialNumber
+8G9X4K2`
+      },
+      {
+        id: "bcdedit",
+        name: "bcdedit",
+        category: "System & Hardware",
+        bestFor: "Viewing and managing bootloader config",
+        shortDesc: "Boot Configuration Data store editor; manages boot settings and safe mode states.",
+        syntax: "bcdedit [/enum] [/set ...]",
+        primaryExample: "bcdedit /enum",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/enum", desc: "Lists all boot entries and bootloader configuration." }
+        ],
+        mockOutput: 
+`Windows Boot Manager
+identifier              {bootmgr}
+device                  partition=\\Device\\HarddiskVolume1
+description             Windows Boot Manager
+
+Windows Boot Loader
+identifier              {current}
+device                  partition=C:
+path                    \\Windows\\system32\\winload.efi`
+      },
+
+      // 5. Process & Services
+      {
+        id: "tasklist",
+        name: "tasklist",
+        category: "Process & Services",
+        bestFor: "Listing active processes and memory use",
+        shortDesc: "Displays currently executing tasks, process IDs (PID), and RAM footprint.",
+        syntax: "tasklist [/v] [/fi \"FILTER\"] [/fo {TABLE | LIST | CSV}]",
+        primaryExample: "tasklist /fi \"MEMUSAGE gt 100000\"",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/fi <filter>", desc: "Filters processes by criteria (e.g. memory or process name)." },
+          { flag: "/v", desc: "Displays verbose user and window title details." }
+        ],
+        mockOutput: 
+`Image Name                     PID Session Name        Session#    Mem Usage
+========================= ======== ================ =========== ============
+chrome.exe                   12984 Console                    1    320,120 K
+node.exe                      6812 Console                    1    145,200 K`
+      },
+      {
+        id: "taskkill",
+        name: "taskkill",
+        category: "Process & Services",
+        bestFor: "Force killing unresponsive programs",
+        shortDesc: "Terminates tasks or applications by Process ID (PID) or executable name.",
+        syntax: "taskkill {/pid PID | /im ImageName} [/f] [/t]",
+        primaryExample: "taskkill /im notepad.exe /f",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/f", desc: "Forcefully terminates process." },
+          { flag: "/im <name>", desc: "Target executable image name." },
+          { flag: "/t", desc: "Terminates process and any child processes spawned by it." }
+        ],
+        mockOutput: 
+`SUCCESS: The process "notepad.exe" with PID 8940 has been terminated.`
+      },
+      {
+        id: "sc_query",
+        name: "sc query",
+        category: "Process & Services",
+        bestFor: "Checking background Windows service states",
+        shortDesc: "Service Control Manager: communicates with Windows services to query, start, or stop.",
+        syntax: "sc [query | start | stop | config] <service_name>",
+        primaryExample: "sc query wuauserv",
+        requiresAdmin: false,
+        flags: [
+          { flag: "query", desc: "Displays status and state of the designated service." },
+          { flag: "stop / start", desc: "Halt or launch service (Requires Admin)." }
+        ],
+        mockOutput: 
+`SERVICE_NAME: wuauserv 
+        TYPE               : 20  WIN32_SHARE_PROCESS  
+        STATE              : 4  RUNNING 
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)`
+      },
+      {
+        id: "net_session",
+        name: "net session",
+        category: "Process & Services",
+        bestFor: "Auditing active incoming LAN connections",
+        shortDesc: "Lists or disconnects active user sessions connected to the local PC over SMB/network sharing.",
+        syntax: "net session [\\\\computername] [/delete]",
+        primaryExample: "net session",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/delete", desc: "Terminates session with specified computer." }
+        ],
+        mockOutput: 
+`Computer            User name            Client Type       Opens Idle time
+-------------------------------------------------------------------------------
+\\\\192.168.1.88     Developer1           Windows 11            2 00:04:12`
+      },
+
+      // 6. Disk & Storage
+      {
+        id: "chkdsk",
+        name: "chkdsk",
+        category: "Disk & Storage",
+        bestFor: "Fixing drive errors & repairing sectors",
+        shortDesc: "Checks volume file system metadata and repairs physical/logical disk errors.",
+        syntax: "chkdsk [volume:] [/f] [/r] [/x]",
+        primaryExample: "chkdsk C: /f /r",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/f", desc: "Fixes errors on the disk." },
+          { flag: "/r", desc: "Locates bad sectors and recovers readable information." }
+        ],
+        mockOutput: 
+`The type of the file system is NTFS.
+Stage 1: Examining basic file system structure...
+Stage 2: Examining file name linkage...
+Windows has scanned the file system and found no problems.`
+      },
+      {
+        id: "diskpart",
+        name: "diskpart",
+        category: "Disk & Storage",
+        bestFor: "Partitioning drives & formatting volumes",
+        shortDesc: "Opens the interactive disk, volume, virtual disk, and partition management engine.",
+        syntax: "diskpart [/s scriptname]",
+        primaryExample: "diskpart",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/s", desc: "Runs automated diskpart batch command script." }
+        ],
+        mockOutput: 
+`Microsoft DiskPart version 10.0.22631.1
+DISKPART> list disk
+  Disk ###  Status         Size     Free     Dyn  Gpt
+  --------  -------------  -------  -------  ---  ---
+  Disk 0    Online         1024 GB  1024 KB        *`
+      },
+      {
+        id: "cipher",
+        name: "cipher /w",
+        category: "Disk & Storage",
+        bestFor: "Securely sanitizing deleted free space",
+        shortDesc: "Permanently wipes deallocated free drive space with zeroes and pseudo-random numbers to make deleted files unrecoverable.",
+        syntax: "cipher [/w:drivepath]",
+        primaryExample: "cipher /w:C:",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/w:<drive>", desc: "Overwrites free unused space across the volume." }
+        ],
+        mockOutput: 
+`Writing 0x00 ...
+Writing 0xFF ...
+Writing Random Numbers ...
+Wipe of free space completed successfully.`
+      },
+      {
+        id: "defrag",
+        name: "defrag / optimize",
+        category: "Disk & Storage",
+        bestFor: "Trimming SSDs & defragmenting HDDs",
+        shortDesc: "Optimizes hard disk drives and sends TRIM re-trim commands to solid-state drives (SSDs).",
+        syntax: "defrag [volume] [/u] [/v] [/o]",
+        primaryExample: "defrag C: /o /v",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/o", desc: "Performs proper optimization for each media type (TRIM for SSD)." },
+          { flag: "/v", desc: "Verbose statistics." }
+        ],
+        mockOutput: 
+`Invoking slab consolidation and TRIM optimization on C:...
+Optimization complete for (C:).
+Retrim: 100% completed.`
+      },
+      {
+        id: "fsutil_dirty",
+        name: "fsutil dirty query",
+        category: "Disk & Storage",
+        bestFor: "Checking if drive volume is flagged damaged",
+        shortDesc: "Queries the file system dirty bit to determine if Windows detected corruption on reboot.",
+        syntax: "fsutil dirty query <volume_letter:>",
+        primaryExample: "fsutil dirty query C:",
+        requiresAdmin: true,
+        flags: [
+          { flag: "query", desc: "Checks dirty status of volume." }
+        ],
+        mockOutput: 
+`Volume - C: is NOT Dirty.`
+      },
+
+      // 7. Troubleshooting & Power Utilities
+      {
+        id: "sfc_scannow",
+        name: "sfc /scannow",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Repairing corrupted Windows system files",
+        shortDesc: "System File Checker: scans protected OS integrity and replaces corrupted binaries.",
+        syntax: "sfc [/scannow] [/verifyonly]",
+        primaryExample: "sfc /scannow",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/scannow", desc: "Scans and automatically repairs corrupt system files." }
+        ],
+        mockOutput: 
+`Beginning system scan. This process will take some time.
+Verification 100% complete.
+Windows Resource Protection found corrupt files and successfully repaired them.`
+      },
+      {
+        id: "dism_restorehealth",
+        name: "dism /online /restorehealth",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Fixing Windows component store via cloud",
+        shortDesc: "Deployment Image Servicing: repairs the underlying Windows Component Store image using Windows Update.",
+        syntax: "dism /online /cleanup-image [/checkhealth | /scanhealth | /restorehealth]",
+        primaryExample: "dism /online /cleanup-image /restorehealth",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/restorehealth", desc: "Scans for component corruption and performs repair from Windows Update." }
+        ],
+        mockOutput: 
+`[==========================100.0%==========================]
+The restore operation completed successfully.
+The component store corruption has been repaired.`
+      },
+      {
+        id: "winget",
+        name: "winget",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Installing & batch updating software",
+        shortDesc: "Windows Package Manager: command-line tool to discover, install, and upgrade all software apps.",
+        syntax: "winget [install | upgrade | search | list] [app_name]",
+        primaryExample: "winget upgrade --all",
+        requiresAdmin: false,
+        flags: [
+          { flag: "upgrade --all", desc: "Upgrades every installed software application to latest version." },
+          { flag: "search <name>", desc: "Queries software repository for package." }
+        ],
+        mockOutput: 
+`Name               Id             Version     Available   Source
+------------------------------------------------------------------
+Google Chrome      Google.Chrome  128.0.6613  129.0.6668  winget
+Git                Git.Git        2.45.1      2.46.0      winget
+2 upgrades available. Starting unattended updates...`
+      },
+      {
+        id: "gpupdate",
+        name: "gpupdate /force",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Instantly refreshing Group Policies",
+        shortDesc: "Forces an immediate update and re-application of local and Active Directory Group Policies.",
+        syntax: "gpupdate [/target:{computer | user}] [/force]",
+        primaryExample: "gpupdate /force",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/force", desc: "Reapplies all policy settings regardless of whether they changed." }
+        ],
+        mockOutput: 
+`Updating policy...
+Computer Policy update has completed successfully.
+User Policy update has completed successfully.`
+      },
+      {
+        id: "reg_query",
+        name: "reg query",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Inspecting Windows Registry keys",
+        shortDesc: "Reads and outputs keys, subkeys, and value data within the Windows Registry hive.",
+        syntax: "reg query <keyname> [/v valuename] [/s]",
+        primaryExample: "reg query \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\" /v ProductName",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/v <value>", desc: "Queries specific registry value." },
+          { flag: "/s", desc: "Queries all subkeys recursively." }
+        ],
+        mockOutput: 
+`HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion
+    ProductName    REG_SZ    Windows 10 Pro`
+      },
+      {
+        id: "takeown",
+        name: "takeown",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Regaining ownership of locked files",
+        shortDesc: "Enables an administrator to recover access to a file by making the active user the owner.",
+        syntax: "takeown [/f filename] [/r] [/d y]",
+        primaryExample: "takeown /f C:\\LockedFolder /r /d y",
+        requiresAdmin: true,
+        flags: [
+          { flag: "/r", desc: "Recurses through subfolders." },
+          { flag: "/d y", desc: "Suppresses confirmation prompts with Yes." }
+        ],
+        mockOutput: 
+`SUCCESS: The file/folder "C:\\LockedFolder" now owned by user "DESKTOP-PRO-X\\Admin".`
+      },
+      {
+        id: "icacls",
+        name: "icacls",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Resetting file permissions and grants",
+        shortDesc: "Displays, modifies, backs up, or restores Access Control Lists (ACLs) for file permissions.",
+        syntax: "icacls <filename> [/grant user:perm] [/reset] [/t]",
+        primaryExample: "icacls C:\\LockedFolder /grant Administrators:F /t",
+        requiresAdmin: true,
+        flags: [
+          { flag: ":F", desc: "Grants Full Control permission." },
+          { flag: "/reset", desc: "Replaces ACLs with default inherited permissions." }
+        ],
+        mockOutput: 
+`processed file: C:\\LockedFolder
+Successfully processed 1 files; Failed processing 0 files`
+      },
+      {
+        id: "fc",
+        name: "fc",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Comparing file differences line-by-line",
+        shortDesc: "File Compare: compares two text or binary files and displays lines with differences.",
+        syntax: "fc [/n] [/c] [/b] <file1> <file2>",
+        primaryExample: "fc /n file1.txt file2.txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: "/n", desc: "Displays line numbers." },
+          { flag: "/c", desc: "Case-insensitive." }
+        ],
+        mockOutput: 
+`Comparing files file1.txt and FILE2.TXT
+***** file1.txt
+    3:  PORT=3000
+***** FILE2.TXT
+    3:  PORT=8080
+*****`
+      },
+      {
+        id: "assoc",
+        name: "assoc",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Inspecting file extension associations",
+        shortDesc: "Displays or modifies the file name extension associations with handler applications.",
+        syntax: "assoc [.ext[=[fileType]]]",
+        primaryExample: "assoc .txt",
+        requiresAdmin: false,
+        flags: [
+          { flag: ".ext", desc: "Queries associated file type for that extension." }
+        ],
+        mockOutput: 
+`.txt=txtfile`
+      },
+      {
+        id: "cls",
+        name: "cls",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Clearing terminal screen buffer",
+        shortDesc: "Clears all displayed text output from the Command Prompt window buffer.",
+        syntax: "cls",
+        primaryExample: "cls",
+        requiresAdmin: false,
+        flags: [
+          { flag: "(none)", desc: "Clears screen." }
+        ],
+        mockOutput: ""
+      },
+      {
+        id: "help",
+        name: "help",
+        category: "Troubleshooting & Utilities",
+        bestFor: "Viewing Windows command dictionary",
+        shortDesc: "Lists standard CMD built-in commands and documentation.",
+        syntax: "help [command-name]",
+        primaryExample: "help",
+        requiresAdmin: false,
+        flags: [
+          { flag: "[command]", desc: "Displays syntax for specified command." }
+        ],
+        mockOutput: 
+`For more information on a specific command, type HELP command-name
+ASSOC    Displays or modifies file extension associations.
+ATTRIB   Displays or changes file attributes.
+CHKDSK   Checks a disk and displays a status report.
+CLS      Clears the screen.
+DIR      Displays a list of files and subdirectories.
+DOSKEY   Edits command lines, recalls commands, and creates macros.
+IPCONFIG Displays all current TCP/IP network configuration values.
+ROBOCOPY Advanced utility to copy file trees.
+SFC      Scans integrity of all protected system files.`
+      }
+    ];
+
+    // Categories list including the newly highlighted Dump & Logging category
+    const CATEGORIES = [
+      "All",
+      "Logging & Dumps",
+      "Networking",
+      "File & Directory",
+      "System & Hardware",
+      "Process & Services",
+      "Disk & Storage",
+      "Troubleshooting & Utilities"
+    ];
+
+    let activeCategory = "All";
+    let searchQuery = "";
+    let selectedCommand = CMD_DATABASE[0]; // Default to doskey /history dump
+
+    // DOM references
+    const commandsContainer = document.getElementById("commands-container");
+    const categoryFiltersContainer = document.getElementById("category-filters");
+    const searchInput = document.getElementById("search-input");
+    const clearSearchBtn = document.getElementById("clear-search-btn");
+    const resetFilterBtn = document.getElementById("reset-filter-btn");
+    const noResultsEl = document.getElementById("no-results");
+    const resultsCountEl = document.getElementById("results-count");
+    const statCountEl = document.getElementById("stat-count");
+
+    // Terminal DOM elements
+    const terminalInput = document.getElementById("terminal-input");
+    const terminalCurrentPreview = document.getElementById("terminal-current-preview");
+    const terminalHistory = document.getElementById("terminal-history");
+    const terminalScreen = document.getElementById("terminal-screen");
+    const activeCmdDesc = document.getElementById("active-cmd-desc");
+    const runTerminalBtn = document.getElementById("run-terminal-btn");
+    const clearScreenBtn = document.getElementById("clear-screen-btn");
+    const copyTerminalCmdBtn = document.getElementById("copy-terminal-cmd-btn");
+    const focusTerminalBtn = document.getElementById("focus-terminal-btn");
+
+    // Toast and modal elements
+    const copyToast = document.getElementById("copy-toast");
+    const toastMessage = document.getElementById("toast-message");
+    const helpModal = document.getElementById("help-modal");
+    const quickHelpBtn = document.getElementById("quick-help-btn");
+    const closeHelpModalBtn = document.getElementById("close-help-modal");
+    const modalGotItBtn = document.getElementById("modal-got-it-btn");
+
+    function copyTextToClipboard(text, customLabel = null) {
+      if (!text) return;
+      
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.top = "-9999px";
+      tempTextArea.style.left = "-9999px";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.focus();
+      tempTextArea.select();
+      
+      try {
+        document.execCommand("copy");
+      } catch (err) {
+        console.error("Copy failed", err);
+      }
+      document.body.removeChild(tempTextArea);
+
+      showToast(customLabel || `Copied "${text}" to clipboard!`);
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      toastMessage.textContent = msg;
+      copyToast.classList.remove("translate-y-16", "opacity-0", "pointer-events-none");
+      copyToast.classList.add("translate-y-0", "opacity-100");
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        copyToast.classList.remove("translate-y-0", "opacity-100");
+        copyToast.classList.add("translate-y-16", "opacity-0", "pointer-events-none");
+      }, 2600);
+    }
+
+    function renderCategoryButtons() {
+      categoryFiltersContainer.innerHTML = "";
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement("button");
+        const isActive = activeCategory === cat;
+        btn.className = `px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition border ${
+          isActive 
+            ? "bg-blue-600 text-white border-blue-500 shadow-sm" 
+            : "bg-slate-900 text-slate-300 border-slate-700/80 hover:bg-slate-800 hover:text-white"
+        }`;
+        btn.textContent = cat;
+        btn.addEventListener("click", () => {
+          activeCategory = cat;
+          renderCategoryButtons();
+          renderCommands();
+        });
+        categoryFiltersContainer.appendChild(btn);
+      });
+    }
+
+    function getFilteredCommands() {
+      const q = searchQuery.toLowerCase().trim();
+      return CMD_DATABASE.filter(cmd => {
+        const matchesCategory = activeCategory === "All" || cmd.category === activeCategory;
+        const matchesSearch = !q || 
+          cmd.name.toLowerCase().includes(q) ||
+          cmd.shortDesc.toLowerCase().includes(q) ||
+          cmd.category.toLowerCase().includes(q) ||
+          (cmd.bestFor && cmd.bestFor.toLowerCase().includes(q)) ||
+          cmd.primaryExample.toLowerCase().includes(q) ||
+          cmd.flags.some(f => f.flag.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q));
+        return matchesCategory && matchesSearch;
+      });
+    }
+
+    function renderCommands() {
+      const filtered = getFilteredCommands();
+      resultsCountEl.textContent = filtered.length;
+      commandsContainer.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noResultsEl.classList.remove("hidden");
+        return;
+      }
+      noResultsEl.classList.add("hidden");
+
+      filtered.forEach(cmd => {
+        const isSelected = selectedCommand && selectedCommand.id === cmd.id;
+        const card = document.createElement("div");
+        card.className = `command-card bg-slate-900 border rounded-xl p-4 cursor-pointer relative overflow-hidden transition ${
+          isSelected 
+            ? "border-cyan-500/80 ring-1 ring-cyan-500/30 bg-slate-900/90" 
+            : "border-slate-800 hover:border-slate-700 bg-slate-900/70"
+        }`;
+
+        // Color coding badges per category
+        let badgeColor = "bg-blue-500/10 text-blue-400 border-blue-500/20";
+        if (cmd.category === "Logging & Dumps") badgeColor = "bg-cyan-500/10 text-cyan-400 border-cyan-500/30";
+        else if (cmd.category === "Networking") badgeColor = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        else if (cmd.category === "Disk & Storage") badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+        else if (cmd.category === "Process & Services") badgeColor = "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        else if (cmd.category === "Troubleshooting & Utilities") badgeColor = "bg-rose-500/10 text-rose-400 border-rose-500/20";
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-2">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-base font-bold font-mono text-cyan-300">${cmd.name}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full border ${badgeColor} font-medium">
+                ${cmd.category}
+              </span>
+              ${cmd.bestFor ? `<span class="text-[10.5px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700/80 font-normal">Best for: ${cmd.bestFor}</span>` : ''}
+              ${cmd.requiresAdmin ? '<span class="text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800/50">Admin</span>' : ''}
+            </div>
+            
+            <!-- Quick Actions: Copy and Load -->
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button 
+                type="button" 
+                title="Load '${cmd.primaryExample}' into Terminal"
+                class="load-term-btn px-2 py-1 text-xs rounded bg-blue-950/70 hover:bg-blue-900 text-blue-300 border border-blue-800/60 transition flex items-center gap-1"
+                data-cmd="${cmd.primaryExample}"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <span>Load</span>
+              </button>
+              <button 
+                type="button" 
+                title="Copy '${cmd.primaryExample}'"
+                class="quick-copy-btn px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1"
+                data-cmd="${cmd.primaryExample}"
+              >
+                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">${cmd.shortDesc}</p>
+
+          <!-- Syntax snippet bar -->
+          <div class="bg-black/60 border border-slate-800 rounded-lg p-2 font-mono text-[11px] text-slate-300 flex items-center justify-between gap-2 overflow-x-auto">
+            <span class="text-slate-400 select-none">CMD&gt;</span>
+            <span class="text-emerald-400 flex-1 font-medium select-all">${cmd.primaryExample}</span>
+            <span class="text-[10px] text-slate-500 font-sans uppercase shrink-0">Click card to test</span>
+          </div>
+
+          <!-- Parameter flags pills preview -->
+          <div class="mt-2.5 flex flex-wrap gap-1.5">
+            ${cmd.flags.map(f => `
+              <span class="text-[10px] font-mono bg-slate-800/80 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700/60" title="${f.desc}">
+                <strong class="text-slate-200">${f.flag}</strong>: ${f.desc.slice(0, 36)}...
+              </span>
+            `).join('')}
+          </div>
+        `;
+
+        // Card select listener
+        card.addEventListener("click", (e) => {
+          if (e.target.closest('.quick-copy-btn')) {
+            e.stopPropagation();
+            copyTextToClipboard(cmd.primaryExample);
+            return;
+          }
+          if (e.target.closest('.load-term-btn')) {
+            e.stopPropagation();
+            selectCommand(cmd);
+            executeTerminalCommand();
+            return;
+          }
+          selectCommand(cmd);
+        });
+
+        commandsContainer.appendChild(card);
+      });
+    }
+
+    function selectCommand(cmd) {
+      selectedCommand = cmd;
+      terminalInput.value = cmd.primaryExample;
+      terminalCurrentPreview.textContent = cmd.primaryExample;
+      activeCmdDesc.textContent = cmd.shortDesc;
+      
+      renderCommands();
+      
+      if (window.innerWidth < 1024) {
+        document.getElementById("cmd-sandbox").scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function executeTerminalCommand() {
+      const rawInput = terminalInput.value.trim();
+      if (!rawInput) return;
+
+      const historyLine = document.createElement("div");
+      historyLine.className = "mb-3";
+
+      // Prompt line
+      const promptEl = document.createElement("div");
+      promptEl.className = "flex items-center text-slate-100 flex-wrap";
+      promptEl.innerHTML = `<span class="text-cmdGreen mr-2">C:\\Users\\Admin&gt;</span><span>${escapeHtml(rawInput)}</span>`;
+      historyLine.appendChild(promptEl);
+
+      // Handle standard "cls"
+      if (rawInput.toLowerCase() === "cls") {
+        terminalHistory.innerHTML = "";
+        terminalScreen.scrollTop = 0;
+        return;
+      }
+
+      // Check known command database or match command prefix
+      const baseCmdName = rawInput.split(" ")[0].toLowerCase();
+      
+      // Look for match via full string, prefix, or specific ID
+      let matched = CMD_DATABASE.find(c => 
+        rawInput.toLowerCase().startsWith(c.name.toLowerCase().split(" ")[0]) ||
+        rawInput.toLowerCase().includes(c.id) ||
+        (c.name.includes(">") && rawInput.includes(">")) ||
+        (c.name.includes("clip") && rawInput.includes("clip")) ||
+        c.name.toLowerCase() === baseCmdName
+      );
+
+      const outputEl = document.createElement("pre");
+      outputEl.className = "text-slate-300 font-mono text-[11.5px] mt-1 mb-2 whitespace-pre-wrap leading-relaxed";
+
+      // Redirection behavior simulation
+      if (rawInput.includes(">") && !rawInput.startsWith("doskey")) {
+        const parts = rawInput.split(">");
+        const fileTarget = parts[parts.length - 1].trim();
+        outputEl.className += " text-cyan-300";
+        outputEl.textContent = `[Redirect Stream] Output successfully dumped to file:\n  Path: C:\\Users\\Admin\\${fileTarget || 'output.txt'}\n  Bytes written: 1,842 bytes\n  Encoding: UTF-8`;
+      } else if (rawInput.includes("| clip")) {
+        outputEl.className += " text-emerald-300";
+        outputEl.textContent = `[OK] Output piped directly into Windows OS Clipboard.\nYou can now paste it using Ctrl + V.`;
+      } else if (matched && matched.mockOutput) {
+        outputEl.textContent = matched.mockOutput;
+      } else if (rawInput.toLowerCase() === "help") {
+        outputEl.textContent = CMD_DATABASE.find(c => c.id === "help").mockOutput;
+      } else {
+        outputEl.className += " text-red-400";
+        outputEl.textContent = `'${baseCmdName}' is not recognized as an internal or external command,\noperable program or batch file. Type 'help' for available command index.`;
+      }
+
+      historyLine.appendChild(outputEl);
+      terminalHistory.appendChild(historyLine);
+
+      // Auto scroll terminal to bottom
+      terminalScreen.scrollTop = terminalScreen.scrollHeight;
+    }
+
+    function escapeHtml(string) {
+      return String(string)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // Input sync
+    terminalInput.addEventListener("input", (e) => {
+      terminalCurrentPreview.textContent = e.target.value;
+    });
+
+    terminalInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        executeTerminalCommand();
+      }
+    });
+
+    runTerminalBtn.addEventListener("click", () => {
+      executeTerminalCommand();
+    });
+
+    clearScreenBtn.addEventListener("click", () => {
+      terminalHistory.innerHTML = "";
+    });
+
+    copyTerminalCmdBtn.addEventListener("click", () => {
+      copyTextToClipboard(terminalInput.value);
+    });
+
+    focusTerminalBtn.addEventListener("click", () => {
+      document.getElementById("cmd-sandbox").scrollIntoView({ behavior: 'smooth' });
+      terminalInput.focus();
+    });
+
+    // Search input events
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      clearSearchBtn.classList.toggle("hidden", !searchQuery);
+      renderCommands();
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      clearSearchBtn.classList.add("hidden");
+      renderCommands();
+      searchInput.focus();
+    });
+
+    resetFilterBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchQuery = "";
+      activeCategory = "All";
+      clearSearchBtn.classList.add("hidden");
+      renderCategoryButtons();
+      renderCommands();
+    });
+
+    // Modal events
+    quickHelpBtn.addEventListener("click", () => {
+      helpModal.classList.remove("hidden");
+    });
+    closeHelpModalBtn.addEventListener("click", () => {
+      helpModal.classList.add("hidden");
+    });
+    modalGotItBtn.addEventListener("click", () => {
+      helpModal.classList.add("hidden");
+    });
+    helpModal.addEventListener("click", (e) => {
+      if (e.target === helpModal) helpModal.classList.add("hidden");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !helpModal.classList.contains("hidden")) {
+        helpModal.classList.add("hidden");
+      }
+    });
+
+    function init() {
+      statCountEl.textContent = CMD_DATABASE.length;
+      document.getElementById("header-badge").textContent = `${CMD_DATABASE.length} Commands`;
+      renderCategoryButtons();
+      renderCommands();
+      selectCommand(CMD_DATABASE[0]);
+      
+      // Auto run first command to display mock output
+      executeTerminalCommand();
+    }
+
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
