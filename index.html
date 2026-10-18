@@ -354,31 +354,7 @@
 
   </main>
 
-  <!-- ================= BOTTOM SLIDE-AWAY AFFILIATE BANNER ================= -->
-  <aside id="affiliate-bottom-banner" class="slide-banner-transition fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 border-t border-slate-700/80 backdrop-blur-md px-4 py-3 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.5)]">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <span class="px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded">Sponsored & Tools</span>
-        <span class="text-xs text-slate-300">Recommended partner tools & cloud environments:</span>
-      </div>
-      
-      <!-- Affiliate placeholder links -->
-      <div class="flex flex-wrap items-center gap-2">
-        <a href="https://espressohub.app" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition" target="_blank" rel="noopener noreferrer">
-          Code Academy
-        </a>
-        <a href="https://espressohub.app" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition" target="_blank" rel="noopener noreferrer">
-Character Prompt Gen        </a>
-        <a href="https://espressohub.app" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition" target="_blank" rel="noopener noreferrer">
-Concept Prompt Gen        </a>
-      </div>
-
-      <!-- Close / Slide-away button -->
-      <button id="dismiss-affiliate-btn" title="Dismiss Affiliate Bar" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-    </div>
-  </aside>
+  
 
   <!-- Copy Toast Notification -->
   <div id="copy-toast" class="fixed bottom-16 right-6 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2.5 bg-emerald-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
@@ -2072,5 +2048,264 @@ SFC      Scans integrity of all protected system files.`
         info.biz.developer@gmail.com
 </span>
 </footer>
+  <!-- ================= START: AFFILIATE / ECOSYSTEM DRAWER ================= -->
+<style>
+  /* Drawer Floating Toggle Tab */
+  .aff-toggle-btn {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #111827;
+    color: #f3f4f6;
+    border: 1px solid #374151;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    padding: 12px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.35);
+    z-index: 99998;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.2s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .aff-toggle-btn:hover {
+    background: #1f2937;
+    color: #60a5fa;
+  }
+
+  /* Overlay Backdrop */
+  .aff-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .aff-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Slide-Out Drawer Panel */
+  .aff-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    max-width: 88vw;
+    height: 100%;
+    background: #0f172a;
+    color: #f8fafc;
+    border-left: 1px solid #1e293b;
+    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.5);
+    z-index: 100000;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-sizing: border-box;
+  }
+  .aff-drawer * {
+    box-sizing: border-box;
+  }
+  .aff-drawer.is-open {
+    transform: translateX(0);
+  }
+
+  /* Drawer Header */
+  .aff-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid #1e293b;
+    background: #131d35;
+  }
+  .aff-header h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1f5f9;
+    letter-spacing: -0.01em;
+  }
+  .aff-close-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .aff-close-btn:hover {
+    color: #f8fafc;
+  }
+
+  /* Card Links List */
+  .aff-list {
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+  .aff-card {
+    display: block;
+    text-decoration: none;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 14px;
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+  }
+  .aff-card:hover {
+    background: #243248;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+  }
+  .aff-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: #60a5fa;
+    margin-bottom: 6px;
+  }
+  .aff-card-title svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+    transition: transform 0.2s;
+  }
+  .aff-card:hover .aff-card-title svg {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+  .aff-card-desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #cbd5e1;
+  }
+
+  /* Drawer Footer */
+  .aff-footer {
+    padding: 14px;
+    border-top: 1px solid #1e293b;
+    font-size: 11px;
+    text-align: center;
+    color: #64748b;
+  }
+</style>
+
+<!-- Trigger Button -->
+<button class="aff-toggle-btn" id="affToggleBtn" aria-label="Open Featured Apps">
+  ✦ Featured Tools
+</button>
+
+<!-- Backdrop -->
+<div class="aff-backdrop" id="affBackdrop"></div>
+
+<!-- Drawer Container -->
+<aside class="aff-drawer" id="affDrawer" aria-hidden="true">
+  <div class="aff-header">
+    <h3>Recommended Tools</h3>
+    <button class="aff-close-btn" id="affCloseBtn" aria-label="Close drawer">✕</button>
+  </div>
+
+  <div class="aff-list">
+    <!-- Concept Prompt Gen -->
+    <a href="https://conceptpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+      <div class="aff-card-title">
+        <span>ConceptPromptGen</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+      </div>
+      <p class="aff-card-desc">Rapidly draft, refine, and structure creative concept prompts tailored for high-quality generative AI results.</p>
+    </a>
+
+    <!-- Web Template Gen -->
+    <a href="https://webtemplategen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+      <div class="aff-card-title">
+        <span>WebTemplateGen</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+      </div>
+      <p class="aff-card-desc">Instantly produce clean, ready-to-deploy web layouts and responsive UI code boilerplate.</p>
+    </a>
+
+    <!-- Character Prompt Gen -->
+    <a href="https://characterpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+      <div class="aff-card-title">
+        <span>CharacterPromptGen</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+      </div>
+      <p class="aff-card-desc">Build detailed character descriptions, distinct visual traits, and consistent stylistic prompts for AI models.</p>
+    </a>
+
+    <!-- Design Pro Flow -->
+    <a href="https://designproflow.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+      <div class="aff-card-title">
+        <span>DesignProFlow</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+      </div>
+      <p class="aff-card-desc">Streamline design-to-production workflows with structured UI kits, component palettes, and asset flows.</p>
+    </a>
+  </div>
+
+  <div class="aff-footer">
+    Explore the creator productivity suite
+  </div>
+</aside>
+
+<script>
+  (function () {
+    const toggleBtn = document.getElementById('affToggleBtn');
+    const closeBtn = document.getElementById('affCloseBtn');
+    const backdrop = document.getElementById('affBackdrop');
+    const drawer = document.getElementById('affDrawer');
+
+    function openDrawer() {
+      drawer.classList.add('is-open');
+      backdrop.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      backdrop.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    toggleBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+        closeDrawer();
+      }
+    });
+
+    // Expose open trigger if needed after modals or specific events
+    window.openAffiliateDrawer = openDrawer;
+  })();
+</script>
+<!-- ================= END: AFFILIATE / ECOSYSTEM DRAWER ================= -->
 </body>
 </html>
