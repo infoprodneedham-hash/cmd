@@ -133,39 +133,35 @@
       
       <!-- Quick actions -->
       <div class="flex items-center space-x-2">
-        <!-- Button HTML -->
-<a 
-  href="https://support-lilac-omega.vercel.app/" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  class="contact-dev-btn"
->
-  Contact The Dev
-</a>
+        <a 
+          href="https://support-lilac-omega.vercel.app/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="contact-dev-btn"
+        >
+          Contact The Dev
+        </a>
 
-<!-- Embedded CSS Styling -->
-<style>
-  .contact-dev-btn {
-    display: inline-block;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #ffffff;
-    background-color: #000000;
-    border: 1px solid #000000;
-    border-radius: 9999px; /* Fully rounded pill shape */
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  /* Reverse color rollover */
-  .contact-dev-btn:hover {
-    background-color: #ffffff;
-    color: #000000;
-  }
-</style>
+        <style>
+          .contact-dev-btn {
+            display: inline-block;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #ffffff;
+            background-color: #000000;
+            border: 1px solid #000000;
+            border-radius: 9999px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+          }
+          .contact-dev-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+          }
+        </style>
         <button id="quick-help-btn" class="px-3 py-1.5 text-xs rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5">
           <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Dump & Pro Tips
@@ -214,7 +210,7 @@
         <input 
           id="search-input" 
           type="text" 
-          placeholder="Search commands (e.g. dump, history, route, whoami, cipher)..."
+          placeholder="Search commands (e.g. dump, history, route, whoami, cipher)..." 
           class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg pl-10 pr-9 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition"
         >
         <button id="clear-search-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-white">
@@ -294,9 +290,9 @@
               <div class="relative flex-1 font-mono text-xs">
                 <input 
                   type="text" 
-                  id="terminal-input"
+                  id="terminal-input" 
                   class="w-full bg-black/80 border border-slate-700 rounded px-2.5 py-1.5 text-emerald-400 font-mono text-xs focus:outline-none focus:border-cyan-500" 
-                  value="doskey /history > conversation_history.txt"
+                  value="doskey /history > conversation_history.txt" 
                   spellcheck="false"
                 >
               </div>
@@ -353,8 +349,6 @@
     </div>
 
   </main>
-
-  
 
   <!-- Copy Toast Notification -->
   <div id="copy-toast" class="fixed bottom-16 right-6 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2.5 bg-emerald-600 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm font-medium">
@@ -1152,10 +1146,10 @@ path                    \\Windows\\system32\\winload.efi`
           { flag: "filters", desc: "Lists all registered filesystem minifilters." }
         ],
         mockOutput: 
-`Filter Name                     Num Instances    Altitude    Frame
+`Filter Name                     Num Instances   Altitude    Frame
 ------------------------------  -------------  ------------  -----
-WdFilter                                    7       328010     0
-storqosflt                                  0       244000     0`
+WdFilter                                    7        328010     0
+storqosflt                                  0        244000     0`
       },
 
       // 5. Process & Services
@@ -1172,7 +1166,7 @@ storqosflt                                  0       244000     0`
           { flag: "/fi", desc: "Filters processes by memory or image name." }
         ],
         mockOutput: 
-`Image Name                   PID Session Name        Mem Usage
+`Image Name                    PID Session Name        Mem Usage
 ========================= ====== ================ ============
 chrome.exe                 12984 Console              320,120 K
 node.exe                    6812 Console              145,200 K`
@@ -1281,7 +1275,7 @@ Windows has scanned the file system and found no problems.`
 DISKPART> list disk
   Disk ###  Status         Size     Free     Dyn  Gpt
   --------  -------------  -------  -------  ---  ---
-  Disk 0    Online         1024 GB  1024 KB         *`
+  Disk 0    Online         1024 GB  1024 KB          *`
       },
       {
         id: "cipher",
@@ -1369,7 +1363,7 @@ Total quota free bytes          : 482,192,842,752 (449.0 GB)`
       Original Volume: (C:)\\`
       },
 
-      // 7. Troubleshooting & Power Utilities
+      // 7. Troubleshooting & Utilities
       {
         id: "sfc_scannow",
         name: "sfc /scannow",
@@ -1445,7 +1439,7 @@ SeChangeNotifyPrivilege       Bypass traverse checking       Enabled`
         mockOutput: 
 `User accounts for \\\\DESKTOP-PRO-X
 -------------------------------------------------------------------------------
-Administrator            DefaultAccount           Guest
+Administrator            DefaultAccount            Guest
 Admin                    WDAGUtilityAccount
 The command completed successfully.`
       },
@@ -1644,7 +1638,6 @@ SFC      Scans integrity of all protected system files.`
     let searchQuery = "";
     let selectedCommand = CMD_DATABASE[0];
 
-    // Command History Stack for Terminal Up/Down arrow navigation
     const commandHistoryStack = [];
     let historyNavIndex = -1;
 
@@ -1673,8 +1666,6 @@ SFC      Scans integrity of all protected system files.`
     const topTermsBanner = document.getElementById("top-terms-banner");
     const launchAppBtn = document.getElementById("launch-app-btn");
     const reopenTermsTab = document.getElementById("reopen-terms-tab");
-    const affiliateBottomBanner = document.getElementById("affiliate-bottom-banner");
-    const dismissAffiliateBtn = document.getElementById("dismiss-affiliate-btn");
 
     const copyToast = document.getElementById("copy-toast");
     const toastMessage = document.getElementById("toast-message");
@@ -1683,22 +1674,22 @@ SFC      Scans integrity of all protected system files.`
     const closeHelpModalBtn = document.getElementById("close-help-modal");
     const modalGotItBtn = document.getElementById("modal-got-it-btn");
 
-    // Banner Interactions
-    launchAppBtn.addEventListener("click", () => {
-      topTermsBanner.classList.add("-translate-y-full", "opacity-0");
-      reopenTermsTab.classList.remove("hidden");
-    });
+    // Banner & Launch Button Listeners with Null Guards
+    if (launchAppBtn && topTermsBanner) {
+      launchAppBtn.addEventListener("click", () => {
+        topTermsBanner.classList.add("-translate-y-full", "opacity-0");
+        if (reopenTermsTab) reopenTermsTab.classList.remove("hidden");
+      });
+    }
 
-    reopenTermsTab.addEventListener("click", () => {
-      topTermsBanner.classList.remove("-translate-y-full", "opacity-0");
-      reopenTermsTab.classList.add("hidden");
-    });
+    if (reopenTermsTab && topTermsBanner) {
+      reopenTermsTab.addEventListener("click", () => {
+        topTermsBanner.classList.remove("-translate-y-full", "opacity-0");
+        reopenTermsTab.classList.add("hidden");
+      });
+    }
 
-    dismissAffiliateBtn.addEventListener("click", () => {
-      affiliateBottomBanner.classList.add("translate-y-full", "opacity-0", "pointer-events-none");
-    });
-
-    // Modern Clipboard API with graceful fallback
+    // Modern Clipboard API with Fallback
     async function copyTextToClipboard(text, customLabel = null) {
       if (!text) return;
       try {
@@ -1714,7 +1705,7 @@ SFC      Scans integrity of all protected system files.`
           document.execCommand("copy");
           document.body.removeChild(tempTextArea);
         }
-        showToast(customLabel || `Copied to clipboard!`);
+        showToast(customLabel || "Copied to clipboard!");
       } catch (err) {
         console.error("Clipboard copy failed:", err);
       }
@@ -1722,6 +1713,7 @@ SFC      Scans integrity of all protected system files.`
 
     let toastTimer = null;
     function showToast(msg) {
+      if (!copyToast || !toastMessage) return;
       toastMessage.textContent = msg;
       copyToast.classList.remove("translate-y-16", "opacity-0", "pointer-events-none");
       copyToast.classList.add("translate-y-0", "opacity-100");
@@ -1734,6 +1726,7 @@ SFC      Scans integrity of all protected system files.`
     }
 
     function renderCategoryButtons() {
+      if (!categoryFiltersContainer) return;
       categoryFiltersContainer.innerHTML = "";
       CATEGORIES.forEach(cat => {
         const btn = document.createElement("button");
@@ -1769,15 +1762,16 @@ SFC      Scans integrity of all protected system files.`
     }
 
     function renderCommands() {
+      if (!commandsContainer) return;
       const filtered = getFilteredCommands();
-      resultsCountEl.textContent = filtered.length;
+      if (resultsCountEl) resultsCountEl.textContent = filtered.length;
       commandsContainer.innerHTML = "";
 
       if (filtered.length === 0) {
-        noResultsEl.classList.remove("hidden");
+        if (noResultsEl) noResultsEl.classList.remove("hidden");
         return;
       }
-      noResultsEl.classList.add("hidden");
+      if (noResultsEl) noResultsEl.classList.add("hidden");
 
       filtered.forEach(cmd => {
         const isSelected = selectedCommand && selectedCommand.id === cmd.id;
@@ -1864,23 +1858,32 @@ SFC      Scans integrity of all protected system files.`
 
     function selectCommand(cmd) {
       selectedCommand = cmd;
-      terminalInput.value = cmd.primaryExample;
-      terminalCurrentPreview.textContent = cmd.primaryExample;
-      activeCmdDesc.textContent = cmd.shortDesc;
+      if (terminalInput) terminalInput.value = cmd.primaryExample;
+      if (terminalCurrentPreview) terminalCurrentPreview.textContent = cmd.primaryExample;
+      if (activeCmdDesc) activeCmdDesc.textContent = cmd.shortDesc;
       renderCommands();
       
-      if (window.innerWidth < 1024) {
-        document.getElementById("cmd-sandbox").scrollIntoView({ behavior: 'smooth' });
+      const cmdSandbox = document.getElementById("cmd-sandbox");
+      if (window.innerWidth < 1024 && cmdSandbox) {
+        cmdSandbox.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
     function executeTerminalCommand() {
+      if (!terminalInput) return;
       const rawInput = terminalInput.value.trim();
       if (!rawInput) return;
 
-      // Add to command history stack
       commandHistoryStack.push(rawInput);
       historyNavIndex = commandHistoryStack.length;
+
+      if (rawInput.toLowerCase() === "cls") {
+        if (terminalHistory) terminalHistory.innerHTML = "";
+        if (terminalScreen) terminalScreen.scrollTop = 0;
+        return;
+      }
+
+      if (!terminalHistory) return;
 
       const historyLine = document.createElement("div");
       historyLine.className = "mb-3";
@@ -1889,12 +1892,6 @@ SFC      Scans integrity of all protected system files.`
       promptEl.className = "flex items-center text-slate-100 flex-wrap";
       promptEl.innerHTML = `<span class="text-cmdGreen mr-2">C:\\Users\\Admin&gt;</span><span>${escapeHtml(rawInput)}</span>`;
       historyLine.appendChild(promptEl);
-
-      if (rawInput.toLowerCase() === "cls") {
-        terminalHistory.innerHTML = "";
-        terminalScreen.scrollTop = 0;
-        return;
-      }
 
       const baseCmdName = rawInput.split(" ")[0].toLowerCase();
       let matched = CMD_DATABASE.find(c => 
@@ -1919,7 +1916,8 @@ SFC      Scans integrity of all protected system files.`
       } else if (matched && matched.mockOutput) {
         outputEl.textContent = matched.mockOutput;
       } else if (rawInput.toLowerCase() === "help") {
-        outputEl.textContent = CMD_DATABASE.find(c => c.id === "help").mockOutput;
+        const helpItem = CMD_DATABASE.find(c => c.id === "help");
+        outputEl.textContent = helpItem ? helpItem.mockOutput : "Help documentation unavailable.";
       } else {
         outputEl.className += " text-red-400";
         outputEl.textContent = `'${baseCmdName}' is not recognized as an internal or external command,\noperable program or batch file. Type 'help' for available command index.`;
@@ -1927,7 +1925,7 @@ SFC      Scans integrity of all protected system files.`
 
       historyLine.appendChild(outputEl);
       terminalHistory.appendChild(historyLine);
-      terminalScreen.scrollTop = terminalScreen.scrollHeight;
+      if (terminalScreen) terminalScreen.scrollTop = terminalScreen.scrollHeight;
     }
 
     function escapeHtml(string) {
@@ -1939,100 +1937,126 @@ SFC      Scans integrity of all protected system files.`
     }
 
     // Terminal History Navigation (Up/Down arrow keys)
-    terminalInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        executeTerminalCommand();
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        if (historyNavIndex > 0) {
-          historyNavIndex--;
-          terminalInput.value = commandHistoryStack[historyNavIndex];
-          terminalCurrentPreview.textContent = terminalInput.value;
+    if (terminalInput) {
+      terminalInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          executeTerminalCommand();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (historyNavIndex > 0) {
+            historyNavIndex--;
+            terminalInput.value = commandHistoryStack[historyNavIndex];
+            if (terminalCurrentPreview) terminalCurrentPreview.textContent = terminalInput.value;
+          }
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (historyNavIndex < commandHistoryStack.length - 1) {
+            historyNavIndex++;
+            terminalInput.value = commandHistoryStack[historyNavIndex];
+            if (terminalCurrentPreview) terminalCurrentPreview.textContent = terminalInput.value;
+          } else {
+            historyNavIndex = commandHistoryStack.length;
+            terminalInput.value = "";
+            if (terminalCurrentPreview) terminalCurrentPreview.textContent = "";
+          }
         }
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault();
-        if (historyNavIndex < commandHistoryStack.length - 1) {
-          historyNavIndex++;
-          terminalInput.value = commandHistoryStack[historyNavIndex];
-          terminalCurrentPreview.textContent = terminalInput.value;
-        } else {
-          historyNavIndex = commandHistoryStack.length;
-          terminalInput.value = "";
-          terminalCurrentPreview.textContent = "";
-        }
-      }
-    });
+      });
 
-    terminalInput.addEventListener("input", (e) => {
-      terminalCurrentPreview.textContent = e.target.value;
-    });
+      terminalInput.addEventListener("input", (e) => {
+        if (terminalCurrentPreview) terminalCurrentPreview.textContent = e.target.value;
+      });
+    }
 
-    runTerminalBtn.addEventListener("click", executeTerminalCommand);
+    if (runTerminalBtn) runTerminalBtn.addEventListener("click", executeTerminalCommand);
 
-    clearScreenBtn.addEventListener("click", () => {
-      terminalHistory.innerHTML = "";
-    });
+    if (clearScreenBtn && terminalHistory) {
+      clearScreenBtn.addEventListener("click", () => {
+        terminalHistory.innerHTML = "";
+      });
+    }
 
-    copyTerminalCmdBtn.addEventListener("click", () => {
-      copyTextToClipboard(terminalInput.value);
-    });
+    if (copyTerminalCmdBtn && terminalInput) {
+      copyTerminalCmdBtn.addEventListener("click", () => {
+        copyTextToClipboard(terminalInput.value);
+      });
+    }
 
-    focusTerminalBtn.addEventListener("click", () => {
-      document.getElementById("cmd-sandbox").scrollIntoView({ behavior: 'smooth' });
-      terminalInput.focus();
-    });
+    if (focusTerminalBtn && terminalInput) {
+      focusTerminalBtn.addEventListener("click", () => {
+        const cmdSandbox = document.getElementById("cmd-sandbox");
+        if (cmdSandbox) cmdSandbox.scrollIntoView({ behavior: 'smooth' });
+        terminalInput.focus();
+      });
+    }
 
     // Search events
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      clearSearchBtn.classList.toggle("hidden", !searchQuery);
-      renderCommands();
-    });
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        if (clearSearchBtn) clearSearchBtn.classList.toggle("hidden", !searchQuery);
+        renderCommands();
+      });
+    }
 
-    clearSearchBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      searchQuery = "";
-      clearSearchBtn.classList.add("hidden");
-      renderCommands();
-      searchInput.focus();
-    });
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.classList.add("hidden");
+        renderCommands();
+        searchInput.focus();
+      });
+    }
 
-    resetFilterBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      searchQuery = "";
-      activeCategory = "All";
-      clearSearchBtn.classList.add("hidden");
-      renderCategoryButtons();
-      renderCommands();
-    });
+    if (resetFilterBtn && searchInput) {
+      resetFilterBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchQuery = "";
+        activeCategory = "All";
+        if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
+        renderCategoryButtons();
+        renderCommands();
+      });
+    }
 
     // Modal listeners
-    quickHelpBtn.addEventListener("click", () => helpModal.classList.remove("hidden"));
-    closeHelpModalBtn.addEventListener("click", () => helpModal.classList.add("hidden"));
-    modalGotItBtn.addEventListener("click", () => helpModal.classList.add("hidden"));
-    helpModal.addEventListener("click", (e) => { if (e.target === helpModal) helpModal.classList.add("hidden"); });
+    if (quickHelpBtn && helpModal) quickHelpBtn.addEventListener("click", () => helpModal.classList.remove("hidden"));
+    if (closeHelpModalBtn && helpModal) closeHelpModalBtn.addEventListener("click", () => helpModal.classList.add("hidden"));
+    if (modalGotItBtn && helpModal) modalGotItBtn.addEventListener("click", () => helpModal.classList.add("hidden"));
+    if (helpModal) {
+      helpModal.addEventListener("click", (e) => { 
+        if (e.target === helpModal) helpModal.classList.add("hidden"); 
+      });
+    }
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !helpModal.classList.contains("hidden")) {
+      if (e.key === "Escape" && helpModal && !helpModal.classList.contains("hidden")) {
         helpModal.classList.add("hidden");
       }
     });
 
     function init() {
-      // Dynamic counter binding
-      statCountEl.textContent = CMD_DATABASE.length;
-      document.getElementById("header-badge").textContent = `${CMD_DATABASE.length} Commands`;
+      if (statCountEl) statCountEl.textContent = CMD_DATABASE.length;
+      const headerBadge = document.getElementById("header-badge");
+      if (headerBadge) headerBadge.textContent = `${CMD_DATABASE.length} Commands`;
       
       renderCategoryButtons();
       renderCommands();
-      selectCommand(CMD_DATABASE[0]);
+      if (CMD_DATABASE.length > 0) {
+        selectCommand(CMD_DATABASE[0]);
+      }
       executeTerminalCommand();
     }
 
-    window.addEventListener("DOMContentLoaded", init);
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
   </script>
+
   <!-- Generic App Footer / Banner -->
-<footer style="
+  <footer style="
     width: 100%;
     text-align: center;
     padding: 10px 16px;
@@ -2041,271 +2065,273 @@ SFC      Scans integrity of all protected system files.`
     background-color: transparent;
     box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-"><span>
+  ">
+    <span>
+      Made for productivity and enjoyment | 2026 | info.biz.developer@gmail.com
+    </span>
+  </footer>
 
-    Made for productivity and enjoyment &nbsp;|&nbsp; 
-    2026 &nbsp;|&nbsp; 
-        info.biz.developer@gmail.com
-</span>
-</footer>
   <!-- ================= START: AFFILIATE / ECOSYSTEM DRAWER ================= -->
-<style>
-  /* Drawer Floating Toggle Tab */
-  .aff-toggle-btn {
-    position: fixed;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #111827;
-    color: #f3f4f6;
-    border: 1px solid #374151;
-    border-right: none;
-    border-radius: 8px 0 0 8px;
-    padding: 12px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.35);
-    z-index: 99998;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.2s, transform 0.2s;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  .aff-toggle-btn:hover {
-    background: #1f2937;
-    color: #60a5fa;
-  }
-
-  /* Overlay Backdrop */
-  .aff-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(3px);
-    z-index: 99999;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s;
-  }
-  .aff-backdrop.is-open {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* Slide-Out Drawer Panel */
-  .aff-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 320px;
-    max-width: 88vw;
-    height: 100%;
-    background: #0f172a;
-    color: #f8fafc;
-    border-left: 1px solid #1e293b;
-    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.5);
-    z-index: 100000;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    box-sizing: border-box;
-  }
-  .aff-drawer * {
-    box-sizing: border-box;
-  }
-  .aff-drawer.is-open {
-    transform: translateX(0);
-  }
-
-  /* Drawer Header */
-  .aff-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    border-bottom: 1px solid #1e293b;
-    background: #131d35;
-  }
-  .aff-header h3 {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 700;
-    color: #f1f5f9;
-    letter-spacing: -0.01em;
-  }
-  .aff-close-btn {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    font-size: 20px;
-    cursor: pointer;
-    line-height: 1;
-    padding: 4px;
-    border-radius: 4px;
-    transition: color 0.15s;
-  }
-  .aff-close-btn:hover {
-    color: #f8fafc;
-  }
-
-  /* Card Links List */
-  .aff-list {
-    padding: 16px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1;
-  }
-  .aff-card {
-    display: block;
-    text-decoration: none;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    padding: 14px;
-    transition: border-color 0.2s, transform 0.15s, background 0.2s;
-  }
-  .aff-card:hover {
-    background: #243248;
-    border-color: #3b82f6;
-    transform: translateY(-2px);
-  }
-  .aff-card-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: 600;
-    color: #60a5fa;
-    margin-bottom: 6px;
-  }
-  .aff-card-title svg {
-    width: 14px;
-    height: 14px;
-    opacity: 0.7;
-    transition: transform 0.2s;
-  }
-  .aff-card:hover .aff-card-title svg {
-    transform: translate(2px, -2px);
-    opacity: 1;
-  }
-  .aff-card-desc {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.45;
-    color: #cbd5e1;
-  }
-
-  /* Drawer Footer */
-  .aff-footer {
-    padding: 14px;
-    border-top: 1px solid #1e293b;
-    font-size: 11px;
-    text-align: center;
-    color: #64748b;
-  }
-</style>
-
-<!-- Trigger Button -->
-<button class="aff-toggle-btn" id="affToggleBtn" aria-label="Open Featured Apps">
-  ✦ Featured Tools
-</button>
-
-<!-- Backdrop -->
-<div class="aff-backdrop" id="affBackdrop"></div>
-
-<!-- Drawer Container -->
-<aside class="aff-drawer" id="affDrawer" aria-hidden="true">
-  <div class="aff-header">
-    <h3>Recommended Tools</h3>
-    <button class="aff-close-btn" id="affCloseBtn" aria-label="Close drawer">✕</button>
-  </div>
-
-  <div class="aff-list">
-    <!-- Concept Prompt Gen -->
-    <a href="https://conceptpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-      <div class="aff-card-title">
-        <span>ConceptPromptGen</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-      </div>
-      <p class="aff-card-desc">Rapidly draft, refine, and structure creative concept prompts tailored for high-quality generative AI results.</p>
-    </a>
-
-    <!-- Web Template Gen -->
-    <a href="https://webtemplategen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-      <div class="aff-card-title">
-        <span>WebTemplateGen</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-      </div>
-      <p class="aff-card-desc">Instantly produce clean, ready-to-deploy web layouts and responsive UI code boilerplate.</p>
-    </a>
-
-    <!-- Character Prompt Gen -->
-    <a href="https://characterpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-      <div class="aff-card-title">
-        <span>CharacterPromptGen</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-      </div>
-      <p class="aff-card-desc">Build detailed character descriptions, distinct visual traits, and consistent stylistic prompts for AI models.</p>
-    </a>
-
-    <!-- Design Pro Flow -->
-    <a href="https://designproflow.app" target="_blank" rel="noopener noreferrer" class="aff-card">
-      <div class="aff-card-title">
-        <span>DesignProFlow</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-      </div>
-      <p class="aff-card-desc">Streamline design-to-production workflows with structured UI kits, component palettes, and asset flows.</p>
-    </a>
-  </div>
-
-  <div class="aff-footer">
-    Explore the creator productivity suite
-  </div>
-</aside>
-
-<script>
-  (function () {
-    const toggleBtn = document.getElementById('affToggleBtn');
-    const closeBtn = document.getElementById('affCloseBtn');
-    const backdrop = document.getElementById('affBackdrop');
-    const drawer = document.getElementById('affDrawer');
-
-    function openDrawer() {
-      drawer.classList.add('is-open');
-      backdrop.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
+  <style>
+    /* Drawer Floating Toggle Tab */
+    .aff-toggle-btn {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #111827;
+      color: #f3f4f6;
+      border: 1px solid #374151;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      padding: 12px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: -4px 0 16px rgba(0, 0, 0, 0.35);
+      z-index: 99998;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.2s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .aff-toggle-btn:hover {
+      background: #1f2937;
+      color: #60a5fa;
     }
 
-    function closeDrawer() {
-      drawer.classList.remove('is-open');
-      backdrop.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
+    /* Overlay Backdrop */
+    .aff-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 99999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .aff-backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
     }
 
-    toggleBtn.addEventListener('click', openDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
-    backdrop.addEventListener('click', closeDrawer);
+    /* Slide-Out Drawer Panel */
+    .aff-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      max-width: 88vw;
+      height: 100%;
+      background: #0f172a;
+      color: #f8fafc;
+      border-left: 1px solid #1e293b;
+      box-shadow: -8px 0 25px rgba(0, 0, 0, 0.5);
+      z-index: 100000;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      box-sizing: border-box;
+    }
+    .aff-drawer * {
+      box-sizing: border-box;
+    }
+    .aff-drawer.is-open {
+      transform: translateX(0);
+    }
 
-    // Close on Escape key
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
-        closeDrawer();
+    /* Drawer Header */
+    .aff-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid #1e293b;
+      background: #131d35;
+    }
+    .aff-header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.01em;
+    }
+    .aff-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .aff-close-btn:hover {
+      color: #f8fafc;
+    }
+
+    /* Card Links List */
+    .aff-list {
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .aff-card {
+      display: block;
+      text-decoration: none;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 14px;
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    }
+    .aff-card:hover {
+      background: #243248;
+      border-color: #3b82f6;
+      transform: translateY(-2px);
+    }
+    .aff-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 6px;
+    }
+    .aff-card-title svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.7;
+      transition: transform 0.2s;
+    }
+    .aff-card:hover .aff-card-title svg {
+      transform: translate(2px, -2px);
+      opacity: 1;
+    }
+    .aff-card-desc {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #cbd5e1;
+    }
+
+    /* Drawer Footer */
+    .aff-footer {
+      padding: 14px;
+      border-top: 1px solid #1e293b;
+      font-size: 11px;
+      text-align: center;
+      color: #64748b;
+    }
+  </style>
+
+  <!-- Trigger Button -->
+  <button class="aff-toggle-btn" id="affToggleBtn" aria-label="Open Featured Apps">
+    ✦ Featured Tools
+  </button>
+
+  <!-- Backdrop -->
+  <div class="aff-backdrop" id="affBackdrop"></div>
+
+  <!-- Drawer Container -->
+  <aside class="aff-drawer" id="affDrawer" aria-hidden="true">
+    <div class="aff-header">
+      <h3>Recommended Tools</h3>
+      <button class="aff-close-btn" id="affCloseBtn" aria-label="Close drawer">✕</button>
+    </div>
+
+    <div class="aff-list">
+      <!-- Concept Prompt Gen -->
+      <a href="https://conceptpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+        <div class="aff-card-title">
+          <span>ConceptPromptGen</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </div>
+        <p class="aff-card-desc">Rapidly draft, refine, and structure creative concept prompts tailored for high-quality generative AI results.</p>
+      </a>
+
+      <!-- Web Template Gen -->
+      <a href="https://webtemplategen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+        <div class="aff-card-title">
+          <span>WebTemplateGen</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </div>
+        <p class="aff-card-desc">Instantly produce clean, ready-to-deploy web layouts and responsive UI code boilerplate.</p>
+      </a>
+
+      <!-- Character Prompt Gen -->
+      <a href="https://characterpromptgen.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+        <div class="aff-card-title">
+          <span>CharacterPromptGen</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </div>
+        <p class="aff-card-desc">Build detailed character descriptions, distinct visual traits, and consistent stylistic prompts for AI models.</p>
+      </a>
+
+      <!-- Design Pro Flow -->
+      <a href="https://designproflow.app" target="_blank" rel="noopener noreferrer" class="aff-card">
+        <div class="aff-card-title">
+          <span>DesignProFlow</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </div>
+        <p class="aff-card-desc">Streamline design-to-production workflows with structured UI kits, component palettes, and asset flows.</p>
+      </a>
+    </div>
+
+    <div class="aff-footer">
+      Explore the creator productivity suite
+    </div>
+  </aside>
+
+  <script>
+    (function () {
+      const toggleBtn = document.getElementById('affToggleBtn');
+      const closeBtn = document.getElementById('affCloseBtn');
+      const backdrop = document.getElementById('affBackdrop');
+      const drawer = document.getElementById('affDrawer');
+
+      function openDrawer() {
+        if (!drawer || !backdrop) return;
+        drawer.classList.add('is-open');
+        backdrop.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
       }
-    });
 
-    // Expose open trigger if needed after modals or specific events
-    window.openAffiliateDrawer = openDrawer;
-  })();
-</script>
-<!-- ================= END: AFFILIATE / ECOSYSTEM DRAWER ================= -->
+      function closeDrawer() {
+        if (!drawer || !backdrop) return;
+        drawer.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+      }
+
+      if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+      // Close on Escape key
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) {
+          closeDrawer();
+        }
+      });
+
+      // Expose globally for chaining after launch or user actions
+      window.openAffiliateDrawer = openDrawer;
+      window.closeAffiliateDrawer = closeDrawer;
+    })();
+  </script>
+  <!-- ================= END: AFFILIATE / ECOSYSTEM DRAWER ================= -->
 </body>
 </html>
